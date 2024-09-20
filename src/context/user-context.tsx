@@ -32,7 +32,7 @@ const UserContext = createContext<IUserContextProps | null>(null)
 
 export const useUser = () => {
   const context = useContext(UserContext)
-  if (!context === null) {
+  if (context === null) {
     throw new Error('useUser must be used within a UserContextProvider')
   }
   return context

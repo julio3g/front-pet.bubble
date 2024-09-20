@@ -3,7 +3,7 @@
 import { STATS_GET } from '@/utils/api-old'
 import { cookies } from 'next/headers'
 
-export type StatsData = {
+export interface StatsData {
   id: number
   title: string
   visualizations: string

@@ -4,7 +4,6 @@ import { logout } from '@/actions/logout'
 import { Button } from '@/components/ui/button'
 import { useUser } from '@/context/user-context'
 import useMedia from '@/hooks/use-media'
-import { User } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -40,25 +39,21 @@ export function ProfileHeader() {
               pathname === '/profile' ? 'bg-orange-700 text-white' : ''
             }`}
           >
-            <User size={16} />
             <Link href="/profile">Entrar</Link>
           </Button>
         </li>
         <li>
           <Button variant="ghost" className="flex gap-1">
-            <User size={16} />
             <Link href="/profile/statistic">statistic</Link>
           </Button>
         </li>
         <li>
           <Button variant="ghost" className="flex gap-1">
-            <User size={16} />
             <Link href="/profile/create">create</Link>
           </Button>
         </li>
         <li>
           <Button onClick={handleLogout} variant="ghost" className="flex gap-1">
-            <User size={16} />
             <Link href="/logout">logout</Link>
           </Button>
         </li>

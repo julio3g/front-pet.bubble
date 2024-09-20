@@ -12,7 +12,6 @@ export async function authentication(dataForm: AuthenticationFormData) {
     if (!username || !password) throw new Error('Preencha todos os campos!')
 
     const { url } = TOKEN_POST()
-    // const url = 'http://pet-shop.local/json/api/user'
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -30,8 +29,6 @@ export async function authentication(dataForm: AuthenticationFormData) {
       sameSite: 'lax',
       maxAge: 60 * 60 * 24, // 1 day
     })
-
-    return { message: 'Autenticação bem-sucedida' }
   } catch (error: unknown) {
     if (error instanceof Error) throw new Error(error.message)
     else throw new Error('Erro de autenticação desconhecido')
