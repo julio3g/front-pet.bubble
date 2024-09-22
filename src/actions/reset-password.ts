@@ -1,6 +1,7 @@
 'use server'
 
 import { PASSWORD_RESET } from '@/utils/api-old'
+import apiError from '@/utils/erros'
 import { redirect } from 'next/navigation'
 
 interface ResetPasswordFormDataProps {
@@ -10,12 +11,7 @@ interface ResetPasswordFormDataProps {
 }
 
 export async function passwordReset(dataForm: ResetPasswordFormDataProps) {
-  const login = dataForm.login as string | null
-  const key = dataForm.key as string | null
-  const password = dataForm.password as string | null
-
   try {
-    if (!login) throw new Error('Preencha todos os campos!')
     const { url } = PASSWORD_RESET()
     const response = await fetch(url, {
       method: 'POST',
@@ -24,10 +20,9 @@ export async function passwordReset(dataForm: ResetPasswordFormDataProps) {
       },
       body: JSON.stringify(dataForm),
     })
-    if (!response.ok) throw new Error('Não autorizado!')
+    if (!response.ok) return { message: 'Não autorizado!' }
   } catch (error: unknown) {
-    if (error instanceof Error) throw new Error(error.message)
-    else throw new Error('Erro de autenticação desconhecido')
+    return { message: apiError(error) }
   }
   redirect('/auth')
 }

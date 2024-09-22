@@ -1,4 +1,5 @@
 import { userGet } from '@/actions/user-get'
+import { Toaster } from '@/components/ui/sonner'
 import { UserContextProvider } from '@/context/user-context'
 import type { Metadata } from 'next'
 import { Plus_Jakarta_Sans as PlusJakartaSans } from 'next/font/google'
@@ -22,7 +23,16 @@ export default async function RootLayout({
     <html lang="pt-BR">
       <body className={`${jakarta.className} bg-slate-50 antialiased`}>
         <UserContextProvider user={data}>{children}</UserContextProvider>
-        {/* {children} */}
+        <Toaster
+          richColors
+          theme="light"
+          closeButton
+          icons={
+            {
+              // error: <X />,
+            }
+          }
+        />
       </body>
     </html>
   )

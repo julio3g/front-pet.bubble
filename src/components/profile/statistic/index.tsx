@@ -8,6 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
+import { Eye } from 'lucide-react'
 import { useMemo } from 'react'
 import {
   Bar,
@@ -23,35 +24,36 @@ import {
 const chartConfig = {
   visualizations: {
     label: 'Visitas',
-    color: '#2563eb',
+    icon: Eye,
   },
 } satisfies ChartConfig
 
-const chartConfig2 = {
-  visitors: {
-    label: 'Visitors',
-  },
-} satisfies ChartConfig
+const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#8dd1e1']
 
 export default function StatisticCharts({ data }: { data: StatsData[] }) {
-  const updatedDataList = data.map((item) => ({
-    ...item,
-    visualizations: Number(item.visualizations),
-  }))
   const totalVisitors = useMemo(() => {
-    return updatedDataList.reduce((acc, curr) => acc + curr.visualizations, 0)
-  }, [updatedDataList])
-  const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#8dd1e1']
+    return data.reduce((acc, curr) => acc + curr.visualizations, 0)
+  }, [data])
+
+  function showColorsCell() {
+    return data.map((_, index) => (
+      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+    ))
+  }
+
   return (
     <div className="space-y-5">
       <Card className="p-6">
-        <h3>Total de Visualizações: {totalVisitors}</h3>
+        <h3 className="text-2xl font-medium">
+          Total de Visualizações:{' '}
+          <span className="font-semibold">{totalVisitors}</span>
+        </h3>
       </Card>
       <div className="grid grid-cols-[382px_auto] gap-5 max-h-96">
         <Card className="flex max-h-96">
           <CardContent className="flex-1 p-0">
             <ChartContainer
-              config={chartConfig2}
+              config={chartConfig}
               className="m-auto aspect-square h-full"
             >
               <PieChart>
@@ -60,18 +62,13 @@ export default function StatisticCharts({ data }: { data: StatsData[] }) {
                   content={<ChartTooltipContent hideLabel />}
                 />
                 <Pie
-                  data={updatedDataList}
+                  data={data}
                   dataKey="visualizations"
                   nameKey="title"
                   innerRadius={80}
                   strokeWidth={5}
                 >
-                  {updatedDataList.map((_, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
+                  {showColorsCell()}
                   <Label
                     content={({ viewBox }) => {
                       if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
@@ -108,7 +105,7 @@ export default function StatisticCharts({ data }: { data: StatsData[] }) {
         </Card>
         <Card className="p-4 max-h-96">
           <ChartContainer config={chartConfig} className="h-full w-full">
-            <BarChart accessibilityLayer data={updatedDataList}>
+            <BarChart accessibilityLayer data={data}>
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="title"
@@ -117,15 +114,7 @@ export default function StatisticCharts({ data }: { data: StatsData[] }) {
                 axisLine={false}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
-              {/* <ChartLegend content={<ChartLegendContent />} /> */}
-              <Bar dataKey="visualizations" radius={4}>
-                {updatedDataList.map((_, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Bar>
+              <Bar dataKey="visualizations">{showColorsCell()}</Bar>
             </BarChart>
           </ChartContainer>
         </Card>

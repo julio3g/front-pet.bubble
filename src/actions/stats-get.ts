@@ -1,12 +1,13 @@
 'use server'
 
 import { STATS_GET } from '@/utils/api-old'
+import apiError from '@/utils/erros'
 import { cookies } from 'next/headers'
 
 export interface StatsData {
   id: number
   title: string
-  visualizations: string
+  visualizations: number
 }
 
 export default async function statsGet() {
@@ -16,17 +17,20 @@ export default async function statsGet() {
     const { url } = STATS_GET()
     const response = await fetch(url, {
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: `Bearer ${token}`,
       },
       next: {
         revalidate: 60,
       },
     })
-    if (!response.ok) throw new Error('Erro ao buscar os dados.')
-    const data = (await response.json()) as StatsData[]
-    return { data }
+    if (!response.ok) return { message: 'Erro ao buscar os dados.' }
+    const data = await response.json()
+    const updatedData = data.map((item: StatsData) => ({
+      ...item,
+      visualizations: Number(item.visualizations),
+    })) as StatsData[]
+    return { updatedData }
   } catch (error) {
-    if (error instanceof Error) throw new Error(error.message)
-    else throw new Error('Erro de autenticação desconhecido')
+    return { message: apiError(error) }
   }
 }

@@ -6,7 +6,9 @@ const nodeEnv = z
   .default('development')
 
 export const env = createEnv({
-  server: {},
+  server: {
+    API_PUBLIC_URL: z.string().url().min(1),
+  },
   client: {
     NEXT_PUBLIC_VERCEL_URL: z.string().url().min(1),
   },

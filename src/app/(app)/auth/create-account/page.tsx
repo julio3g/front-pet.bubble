@@ -43,7 +43,7 @@ export type CreateAccountFormData = z.infer<typeof createAccountFormSchema>
 
 export default function CreateAccount() {
   const router = useRouter()
-  const [serverError, setServerError] = useState<string | null>(null) // Estado para armazenar o erro do servidor
+  const [serverError, setServerError] = useState<string | null>(null)
   const form = useForm<CreateAccountFormData>({
     resolver: zodResolver(createAccountFormSchema),
     defaultValues: {
@@ -55,16 +55,6 @@ export default function CreateAccount() {
       complement: '',
     },
   })
-
-  // const zipCode = form.watch('zipCode')
-
-  // console.log(zipCode)
-
-  // function getZipCode() {
-  //   if (zipCode.length === 8) {
-  //     console.log(zipCode)
-  //   }
-  // }
 
   const {
     formState: { isSubmitting },
@@ -194,7 +184,6 @@ export default function CreateAccount() {
                   )}
                 />
               </div>
-              {serverError && <p className="text-red-500">{serverError}</p>}
               <Button type="submit" className="w-full">
                 {isSubmitting ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

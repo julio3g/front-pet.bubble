@@ -1,3 +1,5 @@
+'use client'
+
 import { PhotoProps } from '@/actions/photos-get'
 import Image from 'next/image'
 import Link from 'next/link'

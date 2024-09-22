@@ -1,6 +1,7 @@
 'use server'
 
 import { USER_GET } from '@/utils/api-old'
+import apiError from '@/utils/erros'
 import { cookies } from 'next/headers'
 
 export interface UserProps {
@@ -34,10 +35,8 @@ export async function userGet() {
     })
     if (!response.ok) throw new Error('Erro ao retornar os dados do usuário!')
     const data = (await response.json()) as UserProps
-    if (!data) return
     return { data }
   } catch (error: unknown) {
-    if (error instanceof Error) throw new Error(error.message)
-    else throw new Error('Erro de autenticação desconhecido')
+    return { message: apiError(error) }
   }
 }

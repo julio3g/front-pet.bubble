@@ -1,11 +1,12 @@
-import { photosGet } from '@/actions/photos-get'
+'use client'
+
+import { PhotoProps } from '@/actions/photos-get'
 import { FeedPhoto } from './photo'
 
-export async function Feed() {
-  const data = await photosGet()
+export function Feed({ photos }: { photos: PhotoProps[] }) {
   return (
     <div>
-      <FeedPhoto photos={data} />
+      <FeedPhoto photos={photos} />
     </div>
   )
 }

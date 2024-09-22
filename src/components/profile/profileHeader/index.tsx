@@ -4,14 +4,15 @@ import { logout } from '@/actions/logout'
 import { Button } from '@/components/ui/button'
 import { useUser } from '@/context/user-context'
 import useMedia from '@/hooks/use-media'
+import { Grid2X2 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 function getTitle(pathname: string) {
   switch (pathname) {
-    case '/conta/postar':
+    case '/profile/create':
       return 'Poste Sua Foto'
-    case '/conta/estatisticas':
+    case '/profile/statistic':
       return 'Estatísticas'
     default:
       return 'Minha Conta'
@@ -34,12 +35,13 @@ export function ProfileHeader() {
       <ul className="flex gap-2">
         <li>
           <Button
-            variant="ghost"
-            className={`flex gap-1 ${
-              pathname === '/profile' ? 'bg-orange-700 text-white' : ''
-            }`}
+            size="icon"
+            variant="outline"
+            className={`flex gap-1 ${pathname === '/profile' ? '' : ''}`}
           >
-            <Link href="/profile">Entrar</Link>
+            <Link href="/profile">
+              <Grid2X2 className="h-4 w-4" />
+            </Link>
           </Button>
         </li>
         <li>
