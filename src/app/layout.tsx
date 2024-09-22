@@ -9,7 +9,7 @@ import './globals.css'
 const jakarta = PlusJakartaSans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Pet Bubble',
+  title: 'Encontre o seu melhor amigo aqui! - Pet.Bubble',
   description: 'Onde lares encontram patinhas',
 }
 
@@ -23,16 +23,7 @@ export default async function RootLayout({
     <html lang="pt-BR">
       <body className={`${jakarta.className} bg-slate-50 antialiased`}>
         <UserContextProvider user={data}>{children}</UserContextProvider>
-        <Toaster
-          richColors
-          theme="light"
-          closeButton
-          icons={
-            {
-              // error: <X />,
-            }
-          }
-        />
+        <Toaster richColors theme="light" closeButton />
       </body>
     </html>
   )

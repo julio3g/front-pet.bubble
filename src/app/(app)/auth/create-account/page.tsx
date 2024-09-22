@@ -18,8 +18,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, User } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const createAccountFormSchema = z.object({
@@ -43,7 +43,6 @@ export type CreateAccountFormData = z.infer<typeof createAccountFormSchema>
 
 export default function CreateAccount() {
   const router = useRouter()
-  const [serverError, setServerError] = useState<string | null>(null)
   const form = useForm<CreateAccountFormData>({
     resolver: zodResolver(createAccountFormSchema),
     defaultValues: {
@@ -62,13 +61,12 @@ export default function CreateAccount() {
   } = form
 
   async function onSubmit(data: CreateAccountFormData) {
-    setServerError(null)
-    try {
-      await createNewUser(data)
+    const result = await createNewUser(data)
+    if (!result) {
       reset()
-      router.push('/profile')
-    } catch (error: any) {
-      setServerError(error.message)
+      router.push('/')
+    } else {
+      toast.error(result.message)
     }
   }
 

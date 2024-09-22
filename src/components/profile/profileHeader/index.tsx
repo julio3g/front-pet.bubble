@@ -10,7 +10,7 @@ import { usePathname } from 'next/navigation'
 
 function getTitle(pathname: string) {
   switch (pathname) {
-    case '/profile/create':
+    case '/profile/create-animal':
       return 'Poste Sua Foto'
     case '/profile/statistic':
       return 'Estatísticas'
@@ -51,7 +51,7 @@ export function ProfileHeader() {
         </li>
         <li>
           <Button variant="ghost" className="flex gap-1">
-            <Link href="/profile/create">create</Link>
+            <Link href="/profile/create-animal">create</Link>
           </Button>
         </li>
         <li>

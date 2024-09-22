@@ -23,7 +23,9 @@ export default function Login() {
         <LogoLarge />
       </Link>
       <LeftAuthPage />
-      <SignInForm />
+      <div className="lg:p-8">
+        <SignInForm />
+      </div>
     </div>
   )
 }

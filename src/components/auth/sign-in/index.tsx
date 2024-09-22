@@ -61,61 +61,59 @@ export function SignInForm() {
   }
 
   return (
-    <div className="lg:p-8">
-      <Card className="mx-auto w-full sm:max-w-md sm:w-full">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl">Acesse sua conta</CardTitle>
-          <CardDescription>Que bom te ver novamente!</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input type="text" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Senha</FormLabel>
-                    <FormControl>
-                      <Input type="password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <Card className="mx-auto w-full sm:max-w-md sm:w-full">
+      <CardHeader className="text-center">
+        <CardTitle className="text-3xl">Acesse sua conta</CardTitle>
+        <CardDescription>Que bom te ver novamente!</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Senha</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button variant="link" className="p-0 h-auto" asChild>
+              <Link href="/auth/lost-password">Esqueci minha senha</Link>
+            </Button>
+            <Button type="submit" className="w-full">
+              {isSubmitting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                'Entrar'
+              )}
+            </Button>
+            <p className="text-muted-foreground text-sm text-center">
+              Não tem uma conta?{' '}
               <Button variant="link" className="p-0 h-auto" asChild>
-                <Link href="/auth/lost-password">Esqueci minha senha</Link>
+                <Link href="/auth/create-account">Registre-se</Link>
               </Button>
-              <Button type="submit" className="w-full">
-                {isSubmitting ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  'Entrar'
-                )}
-              </Button>
-              <p className="text-muted-foreground text-sm text-center">
-                Não tem uma conta?{' '}
-                <Button variant="link" className="p-0 h-auto" asChild>
-                  <Link href="/auth/create-account">Registre-se</Link>
-                </Button>
-              </p>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </div>
+            </p>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   )
 }
