@@ -8,33 +8,32 @@ import { Button } from '../ui/button'
 
 export function Header() {
   const { user } = useUser()
-
   return (
     <header className="bg-white sticky z-10 top">
-      <nav className="flex px-4 2xl:container md:mx-auto items-center justify-between h-16">
+      <nav className="flex px-4 md:container md:mx-auto items-center justify-between h-16">
         <Link href="/">
           <LogoLarge />
         </Link>
         {user ? (
-          <Link href="/profile">
-            <Button variant="ghost" className="flex gap-1">
-              <User size={16} />
+          <Button variant="ghost" className="flex gap-1" asChild>
+            <Link href="/profile">
+              <User size={16} aria-label="Perfil do usuário" />
               <span>{user?.username}</span>
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         ) : (
           <ul className="flex gap-2">
             <li>
-              <Link href="/auth">
-                <Button variant="ghost" className="flex gap-1">
-                  <User size={16} />
+              <Button variant="ghost" className="flex gap-1" asChild>
+                <Link href="/auth">
+                  <User size={16} aria-label="Entrar" />
                   Entrar
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </li>
             <li>
               <Button asChild>
-                <Link href="/auth/create-account">Cadastrar-se</Link>
+                <Link href="/auth/sign-up">Cadastrar-se</Link>
               </Button>
             </li>
           </ul>

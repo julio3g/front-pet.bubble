@@ -1,4 +1,5 @@
 import { LogoLarge } from '@/assets/logo-large'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export function LeftAuthPage() {
@@ -7,7 +8,15 @@ export function LeftAuthPage() {
       <Link href="/" className="relative z-20">
         <LogoLarge />
       </Link>
-      <div className="relative z-20 mt-auto">
+      <div className="flex-1 flex flex-col justify-center items-center">
+        <Image
+          src="/Adopt_a_pet-amico_3.png"
+          alt="sei-la"
+          width={500}
+          className="max-w-md"
+          height={500}
+          sizes="80vw"
+        />
         <blockquote className="space-y-2">
           <p className="max-w-md">
             “Encontrei meu melhor amigo graças a vocês. A adoção foi simples, e

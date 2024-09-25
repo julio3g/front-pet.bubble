@@ -1,7 +1,7 @@
 'use server'
 
 import { STATS_GET } from '@/utils/api-old'
-import apiError from '@/utils/erros'
+import apiError from '@/utils/errors'
 import { cookies } from 'next/headers'
 
 export interface StatsData {

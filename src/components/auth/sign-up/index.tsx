@@ -14,7 +14,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -38,7 +40,9 @@ const createAccountFormSchema = z.object({
 
 export type CreateAccountFormData = z.infer<typeof createAccountFormSchema>
 
-export function SignUp() {
+interface ZipCodeProps {}
+
+export function SignUpForm() {
   const router = useRouter()
   const form = useForm<CreateAccountFormData>({
     resolver: zodResolver(createAccountFormSchema),
@@ -55,16 +59,31 @@ export function SignUp() {
   const {
     formState: { isSubmitting },
     reset,
+    watch,
   } = form
 
-  async function onSubmit(data: CreateAccountFormData) {
-    try {
-      await createNewUser(data)
-      reset()
-      router.push('/profile')
-    } catch (error: any) {
-      toast.error(error.message)
+  const zipCode = watch('zipCode')
+
+  useEffect(() => {
+    async function fetchAddress(zipCode: string) {
+      const numericZipCode = parseInt(zipCode.replace(/\D/g, ''))
+      const response = await fetch(
+        `https://brasilapi.com.br/api/cep/v2/${numericZipCode}`,
+      )
+      const data = await response.json()
     }
+
+    if (zipCode?.length === 9) {
+      fetchAddress(zipCode)
+    }
+  }, [zipCode])
+
+  async function onSubmit(data: CreateAccountFormData) {
+    const result = await createNewUser(data)
+    if (!result) {
+      reset()
+      router.push('/')
+    } else toast.error(result.message)
   }
 
   return (
@@ -131,7 +150,7 @@ export function SignUp() {
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-5">
             <FormField
               control={form.control}
               name="numberAddress"
@@ -170,6 +189,12 @@ export function SignUp() {
               'Cadastrar-se'
             )}
           </Button>
+          <p className="text-muted-foreground text-sm text-center">
+            Já possui uma conta?{' '}
+            <Button variant="link" className="p-0 h-auto" asChild>
+              <Link href="/auth">Entrar</Link>
+            </Button>
+          </p>
         </form>
       </Form>
     </Card>

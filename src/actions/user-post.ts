@@ -1,8 +1,8 @@
 'use server'
 
-import { CreateAccountFormData } from '@/app/(app)/auth/create-account/page'
+import { CreateAccountFormData } from '@/components/auth/sign-up'
 import { USER_POST } from '@/utils/api-old'
-import apiError from '@/utils/erros'
+import apiError from '@/utils/errors'
 import { authentication } from './authentication'
 
 export async function createNewUser(dataForm: CreateAccountFormData) {

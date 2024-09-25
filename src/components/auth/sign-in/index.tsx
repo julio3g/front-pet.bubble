@@ -108,7 +108,7 @@ export function SignInForm() {
             <p className="text-muted-foreground text-sm text-center">
               Não tem uma conta?{' '}
               <Button variant="link" className="p-0 h-auto" asChild>
-                <Link href="/auth/create-account">Registre-se</Link>
+                <Link href="/auth/sign-up">Registre-se</Link>
               </Button>
             </p>
           </form>

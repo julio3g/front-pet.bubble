@@ -1,7 +1,7 @@
 'use server'
 
 import { PASSWORD_RESET } from '@/utils/api-old'
-import apiError from '@/utils/erros'
+import apiError from '@/utils/errors'
 import { redirect } from 'next/navigation'
 
 interface ResetPasswordFormDataProps {

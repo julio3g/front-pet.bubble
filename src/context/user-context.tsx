@@ -1,5 +1,6 @@
 'use client'
 
+import { UserProps } from '@/actions/user-get'
 import {
   createContext,
   Dispatch,
@@ -8,20 +9,6 @@ import {
   useContext,
   useState,
 } from 'react'
-
-export interface UserProps {
-  id: number
-  email: string
-  username: string
-  name: string
-  zipCode: string
-  state: string
-  city: string
-  neighborhood: string
-  street: string
-  numberAddress: string
-  complement: string
-}
 
 interface IUserContextProps {
   user: UserProps | null

@@ -8,6 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
+import useMedia from '@/hooks/use-media'
 import { Eye } from 'lucide-react'
 import { useMemo } from 'react'
 import {
@@ -20,6 +21,7 @@ import {
   PieChart,
   XAxis,
 } from 'recharts'
+import colors from 'tailwindcss/colors'
 
 const chartConfig = {
   visualizations: {
@@ -28,9 +30,19 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#8dd1e1']
+const { indigo, orange, emerald, blue, amber, teal } = colors
+
+const COLORS = [
+  indigo[300],
+  teal[300],
+  orange[300],
+  emerald[300],
+  blue[300],
+  amber[300],
+]
 
 export default function StatisticCharts({ data }: { data: StatsData[] }) {
+  const mobile = useMedia('(max-width: 768px)')
   const totalVisitors = useMemo(() => {
     return data.reduce((acc, curr) => acc + curr.visualizations, 0)
   }, [data])
@@ -42,15 +54,15 @@ export default function StatisticCharts({ data }: { data: StatsData[] }) {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 w-full">
       <Card className="p-6">
         <h3 className="text-2xl font-medium">
           Total de Visualizações:{' '}
           <span className="font-semibold">{totalVisitors}</span>
         </h3>
       </Card>
-      <div className="grid grid-cols-[382px_auto] gap-5 max-h-96">
-        <Card className="flex max-h-96">
+      <div className="grid grid-cols-1 md:grid-cols-[260px_auto] lg:grid-cols-[350px_auto] 2xl:grid-cols-[380px_auto] gap-5 max-h-96">
+        <Card className="flex h-full w-full">
           <CardContent className="flex-1 p-0">
             <ChartContainer
               config={chartConfig}
@@ -65,7 +77,7 @@ export default function StatisticCharts({ data }: { data: StatsData[] }) {
                   data={data}
                   dataKey="visualizations"
                   nameKey="title"
-                  innerRadius={80}
+                  innerRadius={mobile ? 100 : 80}
                   strokeWidth={5}
                 >
                   {showColorsCell()}
@@ -82,7 +94,7 @@ export default function StatisticCharts({ data }: { data: StatsData[] }) {
                             <tspan
                               x={viewBox.cx}
                               y={viewBox.cy}
-                              className="fill-foreground text-3xl font-bold"
+                              className="fill-foreground text-3xl sm:text-4xl font-bold"
                             >
                               {totalVisitors.toLocaleString()}
                             </tspan>

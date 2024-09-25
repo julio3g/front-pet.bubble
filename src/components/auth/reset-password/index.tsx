@@ -15,17 +15,18 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const resetPasswordFormSchema = z
   .object({
     password: z
       .string()
-      .min(8, 'A senha deve ter pelo menos 8 caracteres')
-      .nonempty('Você deve especificar uma senha'),
-    password_repeat: z.string().nonempty('Você deve repetir a senha'),
+      .min(1, 'Você deve especificar uma senha')
+      .min(8, 'A senha deve ter pelo menos 8 caracteres'),
+    password_repeat: z.string().min(1, 'Você deve repetir a senha'),
   })
   .refine((data) => data.password === data.password_repeat, {
     message: 'As senhas não correspondem',
@@ -40,7 +41,7 @@ interface ResetPasswordProps {
 }
 
 export function ResetPasswordForm({ keyToken, userLogin }: ResetPasswordProps) {
-  const [serverError, setServerError] = useState<string | null>(null)
+  const router = useRouter()
   const form = useForm<ResetPasswordFormData>({
     resolver: zodResolver(resetPasswordFormSchema),
     defaultValues: {
@@ -50,23 +51,21 @@ export function ResetPasswordForm({ keyToken, userLogin }: ResetPasswordProps) {
   })
 
   const {
-    formState: { isSubmitting, isSubmitted, errors },
+    formState: { isSubmitting },
     reset,
   } = form
 
   async function onSubmit(data: ResetPasswordFormData) {
     const { password } = data
-    setServerError(null)
-    try {
-      await passwordReset({
-        login: userLogin,
-        password,
-        key: keyToken,
-      })
+    const result = await passwordReset({
+      login: userLogin,
+      password,
+      key: keyToken,
+    })
+    if (!result) {
       reset()
-    } catch (error: any) {
-      setServerError('Erro ao enviar os dados')
-    }
+      router.push('/')
+    } else toast.error(result.message)
   }
 
   return (
@@ -99,7 +98,6 @@ export function ResetPasswordForm({ keyToken, userLogin }: ResetPasswordProps) {
               </FormItem>
             )}
           />
-          {serverError && <p className="text-red-500">{serverError}</p>}
           <Button type="submit" className="w-full">
             {isSubmitting ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

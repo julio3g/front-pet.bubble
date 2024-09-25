@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const lostPasswordFormSchema = z.object({
@@ -35,15 +36,14 @@ export function LostPasswordForm() {
   })
 
   const {
-    formState: { isSubmitting, isSubmitted },
+    formState: { isSubmitting, isSubmitted, errors },
     reset,
   } = form
 
   async function onSubmit(data: LostPasswordFormData) {
-    try {
-      await passwordLost(data)
-      reset()
-    } catch (error: any) {}
+    const result = await passwordLost(data)
+    if (!result) reset()
+    else toast.error(result.message)
   }
 
   return (
@@ -63,17 +63,18 @@ export function LostPasswordForm() {
               </FormItem>
             )}
           />
-          {isSubmitted ? (
-            <p>E-mail enviado com sucesso!</p>
-          ) : (
-            <Button type="submit" className="w-full">
-              {isSubmitting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                'Enviar'
-              )}
-            </Button>
+          {isSubmitted && errors.login && (
+            <p className="text-green-500 w-full disabled:opacity-80 text-center">
+              E-mail enviado com sucesso!
+            </p>
           )}
+          <Button type="submit" className="w-full">
+            {isSubmitting ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              'Enviar'
+            )}
+          </Button>
           <p className="text-muted-foreground text-sm text-center">
             <Button variant="link" className="p-0 h-auto" asChild>
               <Link href="/auth">Voltar</Link>

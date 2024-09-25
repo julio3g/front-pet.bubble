@@ -15,14 +15,19 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: ReactNode
+  modal: ReactNode
 }>) {
   const { data } = await userGet()
   return (
     <html lang="pt-BR">
       <body className={`${jakarta.className} bg-slate-50 antialiased`}>
-        <UserContextProvider user={data}>{children}</UserContextProvider>
+        <UserContextProvider user={data}>
+          <>{children}</>
+          <>{modal}</>
+        </UserContextProvider>
         <Toaster richColors theme="light" closeButton />
       </body>
     </html>

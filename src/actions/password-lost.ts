@@ -3,7 +3,7 @@
 import { LostPasswordFormData } from '@/components/auth/lost-password'
 import { env } from '@/env'
 import { PASSWORD_LOST } from '@/utils/api-old'
-import apiError from '@/utils/erros'
+import apiError from '@/utils/errors'
 
 export async function passwordLost(dataForm: LostPasswordFormData) {
   const login = dataForm.login as string | null

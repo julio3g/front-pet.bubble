@@ -2,7 +2,7 @@
 
 import { AuthenticationFormData } from '@/components/auth/sign-in'
 import { TOKEN_POST } from '@/utils/api-old'
-import apiError from '@/utils/erros'
+import apiError from '@/utils/errors'
 import { cookies } from 'next/headers'
 
 export async function authentication(dataForm: AuthenticationFormData) {

@@ -20,6 +20,12 @@ export function USER_GET() {
   }
 }
 
+export function USER_GET_BY_USERNAME(username: string) {
+  return {
+    url: `${API_URL}/api/user/${username}`,
+  }
+}
+
 export function USER_POST() {
   return {
     url: API_URL + '/api/user',
