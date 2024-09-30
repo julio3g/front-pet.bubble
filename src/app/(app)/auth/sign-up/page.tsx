@@ -1,7 +1,12 @@
 import { LogoLarge } from '@/assets/logo-large'
 import { LeftAuthPage } from '@/components/auth'
 import { SignUpForm } from '@/components/auth/sign-up'
+import { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'Crie sua conta gratuitamente - Pet.Bubble',
+}
 
 export default function SignUp() {
   return (

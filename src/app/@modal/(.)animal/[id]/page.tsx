@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: FotoIdParams) {
 
   if (!data) return { title: 'Fotos' }
   return {
-    title: data.title,
+    title: `${data.title} - Pet.Bubble`,
   }
 }
 

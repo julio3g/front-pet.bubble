@@ -9,7 +9,7 @@ export default async function Profile() {
   const { data } = await photosGet({ user: user?.username })
   return (
     <>
-      {data?.length ? (
+      {data.length ? (
         <Feed photos={data} user={user?.username} />
       ) : (
         <div className="flex flex-col justify-center items-center gap-5">

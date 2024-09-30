@@ -20,7 +20,7 @@ export default async function statsGet() {
         Authorization: `Bearer ${token}`,
       },
       next: {
-        revalidate: 60,
+        revalidate: 10,
       },
     })
     if (!response.ok) return { message: 'Erro ao buscar os dados.' }

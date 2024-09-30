@@ -4,9 +4,9 @@ import { logout } from '@/actions/logout'
 import { ActiveButton } from '@/components/ui/active-button'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useUser } from '@/context/user-context'
-import useMedia from '@/hooks/use-media'
 import { ChartPie, Grid2X2, LogOut, Plus } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import { toast } from 'sonner'
 
 function getTitle(pathname: string) {
   switch (pathname) {
@@ -20,7 +20,6 @@ function getTitle(pathname: string) {
 }
 
 export function ProfileHeader() {
-  const mobile = useMedia('(max-width: 40rem)')
   const pathname = usePathname()
 
   const { setUserState } = useUser()
@@ -29,12 +28,12 @@ export function ProfileHeader() {
       await logout()
       setUserState(null)
     } catch (error) {
-      console.error('Erro ao deslogar!', error)
+      toast.error(error)
     }
   }
 
   return (
-    <nav className="mt-8 flex px-4 md:container md:mx-auto w-full items-center justify-between h-16">
+    <nav className="mt-8 flex px-4 max-w-5xl mx-auto w-full items-center justify-between h-16">
       <h2 className="text-3xl font-medium">{getTitle(pathname)}</h2>
       <ul className="flex gap-2">
         <TooltipProvider>

@@ -1,22 +1,21 @@
-// @ts-nocheck
-// export const API_URL = 'https://dogsapi.origamid.dev/json'
+// export const API_URL = env.API_PUBLIC_URL
 export const API_URL = 'http://pet-shop.local/json'
 
 export function TOKEN_POST() {
   return {
-    url: API_URL + '/jwt-auth/v1/token',
+    url: `${API_URL}/jwt-auth/v1/token`,
   }
 }
 
 export function TOKEN_VALIDATE_POST() {
   return {
-    url: API_URL + '/jwt-auth/v1/token/validate',
+    url: `${API_URL}/jwt-auth/v1/token/validate`,
   }
 }
 
 export function USER_GET() {
   return {
-    url: API_URL + '/api/user',
+    url: `${API_URL}/api/user`,
   }
 }
 
@@ -28,13 +27,13 @@ export function USER_GET_BY_USERNAME(username: string) {
 
 export function USER_POST() {
   return {
-    url: API_URL + '/api/user',
+    url: `${API_URL}/api/user`,
   }
 }
 
 export function PHOTO_POST() {
   return {
-    url: API_URL + '/api/photo',
+    url: `${API_URL}/api/photo`,
   }
 }
 
@@ -66,18 +65,18 @@ export function PHOTO_DELETE(id: string) {
 
 export function PASSWORD_LOST() {
   return {
-    url: API_URL + '/api/password/lost',
+    url: `${API_URL}/api/password/lost`,
   }
 }
 
 export function PASSWORD_RESET() {
   return {
-    url: API_URL + '/api/password/reset',
+    url: `${API_URL}/api/password/reset`,
   }
 }
 
 export function STATS_GET() {
   return {
-    url: API_URL + '/api/stats',
+    url: `${API_URL}/api/stats`,
   }
 }
