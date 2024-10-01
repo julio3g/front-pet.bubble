@@ -1,5 +1,5 @@
-// export const API_URL = env.API_PUBLIC_URL
-export const API_URL = 'http://pet-shop.local/json'
+export const API_URL =
+  'https://lightslategray-cattle-445524.hostingersite.com/json'
 
 export function TOKEN_POST() {
   return {

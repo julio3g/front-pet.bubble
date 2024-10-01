@@ -24,7 +24,7 @@ export default async function Statistic() {
   const { updatedData } = await statsGet()
   return (
     <>
-      {updatedData.length ? (
+      {updatedData && updatedData.length > 0 ? (
         <StatisticCharts data={updatedData} />
       ) : (
         <div className="flex flex-col items-center gap-2 justify-center">
