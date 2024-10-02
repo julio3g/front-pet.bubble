@@ -119,21 +119,17 @@ export function CreateANewAnimalForm() {
       formData.append(key, value as string | Blob)
     })
 
-    if (files.length > 0) {
-      formData.append('img', files[0])
-    }
-    console.log(formData)
+    if (files.length > 0) formData.append('img', files[0])
+
     const result = await createNewPet(formData)
-    if (!result) {
-      reset()
-    } else toast.error(result.message)
+
+    if (!result) reset()
+    else toast.error(result.message)
   }
 
   const watchSpecialCondition = watch('specialCondition')
 
-  function removeImage() {
-    setFiles([])
-  }
+  const removeImage = () => setFiles([])
 
   return (
     <Card className="p-6">

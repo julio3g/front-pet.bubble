@@ -7,7 +7,6 @@ import apiError from '@/utils/errors'
 
 export async function passwordLost(dataForm: LostPasswordFormData) {
   const login = dataForm.login as string | null
-  // const urlLostPassword = 'http://localhost:3000/auth/reset-password'
   const urlLostPassword = `${env.NEXT_PUBLIC_VERCEL_URL}/auth/reset-password`
 
   try {

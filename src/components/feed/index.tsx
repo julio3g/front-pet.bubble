@@ -1,6 +1,7 @@
 'use client'
 
 import { PhotoProps, photosGet } from '@/actions/photos-get'
+import { Loader2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { FeedPhoto } from './photo'
 
@@ -15,10 +16,8 @@ export function Feed({
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
   const [infinite, setInfinite] = useState(photos.length < 6 ? false : true)
-
   const fetching = useRef(false)
   function infiniteScroll() {
-    console.log('aconteceu')
     if (fetching.current) return
     fetching.current = true
     setLoading(true)
@@ -34,9 +33,7 @@ export function Feed({
     async function getPagePhotos(page: number) {
       const actionData = await photosGet(
         { page, total: 6, user: 0 },
-        {
-          cache: 'no-store',
-        },
+        { cache: 'no-store' },
       )
       if (actionData && actionData.data !== null) {
         const { data } = actionData
@@ -64,7 +61,11 @@ export function Feed({
   return (
     <div>
       <FeedPhoto photos={photosFeed} />
-      {loading && <div>Loading...</div>}
+      {loading && (
+        <div className="flex items-center justify-center">
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        </div>
+      )}
     </div>
   )
 }

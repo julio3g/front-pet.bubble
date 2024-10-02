@@ -1,4 +1,4 @@
-import { CreateANewAnimalForm } from '@/components/profile/createAnimal'
+import { CreateANewAnimalForm } from '@/components/profile/create-animal'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {

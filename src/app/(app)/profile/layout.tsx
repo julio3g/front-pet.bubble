@@ -12,7 +12,7 @@ export default async function ProfileLayout({
     <main className="flex flex-col min-h-screen-app">
       <Header />
       <ProfileHeader />
-      <section className="flex-1 pt-8 p-4 sm:container mx-auto">
+      <section className="flex-1 pt-8 p-4 max-w-5xl w-full mx-auto">
         {children}
       </section>
       <Footer />

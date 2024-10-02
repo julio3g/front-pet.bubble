@@ -2,7 +2,12 @@
 
 import { createNewUser } from '@/actions/user-post'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -12,6 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { convertCepToNumeric } from '@/utils/formatter'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
@@ -35,12 +41,21 @@ const createAccountFormSchema = z.object({
     .string()
     .min(1, 'O número do endereço não pode estar vazio')
     .optional(),
+  state: z.string().optional(),
+  city: z.string().optional(),
+  neighborhood: z.string().optional(),
+  street: z.string().optional(),
   complement: z.string().optional(),
 })
 
 export type CreateAccountFormData = z.infer<typeof createAccountFormSchema>
 
-interface ZipCodeProps {}
+interface ZipCodeProps {
+  state: string
+  city: string
+  neighborhood: string
+  street: string
+}
 
 export function SignUpForm() {
   const router = useRouter()
@@ -60,23 +75,28 @@ export function SignUpForm() {
     formState: { isSubmitting },
     reset,
     watch,
+    setValue,
   } = form
 
   const zipCode = watch('zipCode')
 
   useEffect(() => {
     async function fetchAddress(zipCode: string) {
-      const numericZipCode = parseInt(zipCode.replace(/\D/g, ''))
       const response = await fetch(
-        `https://brasilapi.com.br/api/cep/v2/${numericZipCode}`,
+        `https://brasilapi.com.br/api/cep/v2/${convertCepToNumeric(zipCode)}`,
       )
-      const data = await response.json()
+      if (!response.ok)
+        toast.error('CEP não encontrado. Verifique o CEP informado!')
+      const { city, state, neighborhood, street } =
+        (await response.json()) as ZipCodeProps
+      setValue('neighborhood', neighborhood)
+      setValue('state', state)
+      setValue('city', city)
+      setValue('street', street)
     }
 
-    if (zipCode?.length === 9) {
-      fetchAddress(zipCode)
-    }
-  }, [zipCode])
+    if (zipCode?.length === 9) fetchAddress(zipCode)
+  }, [zipCode, setValue])
 
   async function onSubmit(data: CreateAccountFormData) {
     const result = await createNewUser(data)
@@ -88,8 +108,11 @@ export function SignUpForm() {
 
   return (
     <Card className="mx-auto flex w-full p-6 flex-col justify-center space-y-3 sm:max-w-md sm:w-full">
-      <CardHeader>
-        <CardTitle>Cadastre-se gratuitamente</CardTitle>
+      <CardHeader className="text-center">
+        <CardTitle className="text-3xl">Cadastre-se gratuitamente</CardTitle>
+        <CardDescription>
+          Junte-se a nós e faça parte de algo incrível!
+        </CardDescription>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -150,6 +173,59 @@ export function SignUpForm() {
               </FormItem>
             )}
           />
+
+          <div className="grid grid-cols-2 gap-5">
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cidade</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} disabled />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Estado</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} disabled />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-5">
+            <FormField
+              control={form.control}
+              name="street"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rua</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} disabled />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="neighborhood"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Bairro</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} disabled />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
           <div className="grid grid-cols-3 gap-5">
             <FormField
               control={form.control}

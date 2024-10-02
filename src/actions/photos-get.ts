@@ -35,14 +35,12 @@ export async function photosGet(
 ) {
   try {
     const options = optionsFront || {
-      next: { revalidate: 10, tags: ['photo'] },
+      next: { revalidate: 10, tags: ['photos'] },
     }
     const { url } = PHOTOS_GET({ page, total, user })
     const response = await fetch(url, options)
-
     if (!response.ok) return { message: 'Erro ao buscar os dados.' }
     const data = (await response.json()) as PhotoProps[]
-
     return { data }
   } catch (error) {
     return { message: apiError(error) }

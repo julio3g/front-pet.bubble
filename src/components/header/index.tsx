@@ -1,24 +1,22 @@
-'use client'
-
+import { userGet } from '@/actions/user-get'
 import { LogoLarge } from '@/assets/logo-large'
-import { useUser } from '@/context/user-context'
 import { User } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '../ui/button'
 
-export function Header() {
-  const { user } = useUser()
+export async function Header() {
+  const { data } = await userGet()
   return (
     <header className="bg-white sticky z-10 top">
-      <nav className="flex px-4 md:container md:mx-auto items-center justify-between h-16">
+      <nav className="flex px-4 max-w-5xl mx-auto items-center justify-between h-16">
         <Link href="/">
           <LogoLarge />
         </Link>
-        {user ? (
+        {data ? (
           <Button variant="ghost" className="flex gap-1" asChild>
             <Link href="/profile">
               <User size={16} aria-label="Perfil do usuário" />
-              <span>{user?.username}</span>
+              <span>{data?.username}</span>
             </Link>
           </Button>
         ) : (

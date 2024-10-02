@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-const useMedia = (media: string) => {
+export const useMedia = (media: string) => {
   const [match, setMatch] = useState<boolean>(false)
 
   useEffect(() => {
@@ -12,12 +12,7 @@ const useMedia = (media: string) => {
     }
     changeMatch()
     window.addEventListener('resize', changeMatch)
-    return () => {
-      window.removeEventListener('resize', changeMatch)
-    }
+    return () => window.removeEventListener('resize', changeMatch)
   }, [media])
-
   return match
 }
-
-export default useMedia

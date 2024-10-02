@@ -8,7 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
-import useMedia from '@/hooks/use-media'
+import { useMedia } from '@/hooks/use-media'
 import { Eye } from 'lucide-react'
 import { useMemo } from 'react'
 import {
